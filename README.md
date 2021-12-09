@@ -1,5 +1,5 @@
 ﻿# Customer Login API
- 
+ Before you can use this app you will need to add your own connection string from a DB, 'dotnet run' in the terminal before calling endpoints in Insomnia/Postman
  ## urls:
 
 ### add user
