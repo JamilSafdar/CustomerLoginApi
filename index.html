@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Portal</title>
+</head>
+<body>
+        <div class="container">
+            <h1>Register</h1>
+            <p>Please fill in this form to access your Customer Id so you can proceed to login.</p>
+
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="Your title ..">
+
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name..">
+        
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" placeholder="Your email address is..">
+
+            <button onclick="createCustomer()">Submit</button>
+            <p id="response">Note: Your response will appear here</p>
+
+            <h1>Log in</h1>
+            <label for="customerId">Customer Id</label>
+            <input type="text" id="customerId" name="customerId" placeholder="Your id..">
+
+            <button onclick="getCustomer()">Search</button>
+            <p id="searchResponse">Note: Your response will appear here</p>
+        
+        </div>
+    
+</body>
+<script>
+function createCustomer() {
+  alert("button clicked");
+  var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+            // Typical action to be performed when the document is ready:
+            console.log(xhttp);
+            document.getElementById("response").innerHTML = xhttp.responseText;
+            }
+            else {
+                console.log(xhttp);
+            }
+        };
+        xhttp.open("POST", "https://localhost:44380/api/Customer", false);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        var title = document.getElementById("title").value;   
+        var firstName = document.getElementById("fname").value;
+        console.log(firstName);
+        var lastName = document.getElementById("lname").value;
+        var email = parseInt(document.getElementById("email").value);
+        
+        xhttp.send(JSON.stringify({ "firstName":firstName, "surname":lastName, "title": title, "email": email }));
+    }
+
+    function getCustomer() {
+  alert("search initiated");
+  var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
+            // Typical action to be performed when the document is ready:
+            console.log(xhttp);
+            document.getElementById("searchResponse").innerHTML = xhttp.responseText;
+            }
+            else {
+                console.log(xhttp);
+            }
+        };
+        var customerId = document.getElementById("customerId").value;   
+        xhttp.open("GET", `https://localhost:44380/api/Customer/${customerId}`, false);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        
+        xhttp.send();
+    }
+</script>
+</html>
